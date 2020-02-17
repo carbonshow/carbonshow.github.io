@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dataframe on 小虫飞飞大本营</title>
+    <link>https://carbonshow.github.io/zh/tags/dataframe/</link>
+    <description>Recent content in dataframe on 小虫飞飞大本营</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <managingEditor>simon.tao.86@gmail.com (小虫飞飞)</managingEditor>
+    <webMaster>simon.tao.86@gmail.com (小虫飞飞)</webMaster>
+    <copyright>©{year}, All Rights Reserved</copyright>
+    <lastBuildDate>Mon, 10 Feb 2020 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="https://carbonshow.github.io/zh/tags/dataframe/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+
+      
+      <item>
+        <title>JVM上的Pandas：tablesaw</title>
+        <link>https://carbonshow.github.io/zh/posts/tablesaw/</link>
+        <pubDate>Mon, 10 Feb 2020 00:00:00 +0000</pubDate>
+        <author>simon.tao.86@gmail.com (小虫飞飞)</author>
+        <guid>https://carbonshow.github.io/zh/posts/tablesaw/</guid>
+        <description>Pandas 是 Python 界最流行的数据统计基础库之一。但像我这样和 Java/Scala 打交道的人，还是期望 JVM 有类似的解决方案。网上一搜发现生态还是很丰富的：大数据领域的 Spark ，支持</description>
+      </item>
+      
+
+    
+  </channel>
+</rss>

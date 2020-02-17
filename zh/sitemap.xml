@@ -23,7 +23,13 @@
   </url>
   
   <url>
+    <loc>https://carbonshow.github.io/zh/series/data/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://carbonshow.github.io/zh/categories/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -37,7 +43,38 @@
   </url>
   
   <url>
+    <loc>https://carbonshow.github.io/zh/tags/dataframe/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/tags/jvm/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/posts/tablesaw/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/series/mining/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/tags/pandas/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/tags/scala/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://carbonshow.github.io/zh/series/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -51,7 +88,13 @@
   </url>
   
   <url>
+    <loc>https://carbonshow.github.io/zh/categories/table/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://carbonshow.github.io/zh/tags/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -65,11 +108,17 @@
   </url>
   
   <url>
-    <loc>https://carbonshow.github.io/zh/about/</loc>
+    <loc>https://carbonshow.github.io/zh/categories/tools/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://carbonshow.github.io/zh/posts/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/about/</loc>
   </url>
   
 </urlset>
