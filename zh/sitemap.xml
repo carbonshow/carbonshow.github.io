@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/</loc>
+    <lastmod>2020-02-12T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://carbonshow.github.io/en/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://carbonshow.github.io/zh/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/contact/</loc>
+    <lastmod>2020-02-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/categories/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://carbonshow.github.io/en/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://carbonshow.github.io/zh/categories/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/series/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://carbonshow.github.io/en/series/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://carbonshow.github.io/zh/series/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/tags/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://carbonshow.github.io/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://carbonshow.github.io/zh/tags/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/about/</loc>
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/posts/</loc>
+  </url>
+  
+</urlset>
