@@ -38,6 +38,15 @@
         <description>Pandas 是 Python 界最流行的数据统计基础库之一。但像我这样和 Java/Scala 打交道的人，还是期望 JVM 有类似的解决方案。网上一搜发现生态还是很丰富的：大数据领域的 Spark ，支持</description>
       </item>
       
+      <item>
+        <title>关于</title>
+        <link>https://carbonshow.github.io/zh/about/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        <author>simon.tao.86@gmail.com (小虫飞飞)</author>
+        <guid>https://carbonshow.github.io/zh/about/</guid>
+        <description>主要内容 小虫飞飞大本营 以 技术 为主要话题，将笔者在日常工作、无聊闲逛中遇到的有趣内容整理出来。一方面帮助自己归纳总结，一方面期待给更多朋友带来</description>
+      </item>
+      
 
     
   </channel>
