@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" 
+  xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+  xmlns:dc="http://purl.org/dc/elements/1.1/" 
+  xmlns:atom="http://www.w3.org/2005/Atom" 
+  xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" 
+  xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>小虫飞飞大本营</title>
     <link>https://carbonshow.github.io/zh/</link>
@@ -25,8 +30,17 @@
         <link>https://carbonshow.github.io/zh/contact/</link>
         <pubDate>Wed, 12 Feb 2020 00:00:00 +0000</pubDate>
         <author>simon.tao.86@gmail.com (小虫飞飞)</author>
+        <atom:modified>Wed, 12 Feb 2020 00:00:00 +0000</atom:modified>
         <guid>https://carbonshow.github.io/zh/contact/</guid>
         <description></description>
+        
+        <dc:creator>小虫飞飞</dc:creator>
+        
+        
+        
+        
+        
+        
       </item>
       
       <item>
@@ -34,8 +48,51 @@
         <link>https://carbonshow.github.io/zh/posts/tablesaw/</link>
         <pubDate>Mon, 10 Feb 2020 00:00:00 +0000</pubDate>
         <author>simon.tao.86@gmail.com (小虫飞飞)</author>
+        <atom:modified>Mon, 10 Feb 2020 00:00:00 +0000</atom:modified>
         <guid>https://carbonshow.github.io/zh/posts/tablesaw/</guid>
         <description>Pandas 是 Python 界最流行的数据统计基础库之一。但像我这样和 Java/Scala 打交道的人，还是期望 JVM 有类似的解决方案。网上一搜发现生态还是很丰富的：大数据领域的 Spark ，支持</description>
+        
+        <dc:creator>小虫飞飞</dc:creator>
+        <media:content url="https://carbonshow.github.ioimages/tablesaw/tablesaw.jpeg" medium="image"><media:title type="html">featured image</media:title></media:content>
+        
+        
+        
+          
+            
+              <category>pandas</category>
+            
+          
+            
+              <category>jvm</category>
+            
+          
+            
+              <category>scala</category>
+            
+          
+            
+              <category>dataframe</category>
+            
+          
+        
+        
+          
+            
+              <category>tools</category>
+            
+          
+        
+        
+          
+            
+              <category>&#34;data</category>
+            
+          
+            
+              <category>mining&#34;</category>
+            
+          
+        
       </item>
       
       <item>
@@ -43,8 +100,17 @@
         <link>https://carbonshow.github.io/zh/about/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         <author>simon.tao.86@gmail.com (小虫飞飞)</author>
+        
         <guid>https://carbonshow.github.io/zh/about/</guid>
         <description>主要内容 小虫飞飞大本营 以 技术 为主要话题，将笔者在日常工作、无聊闲逛中遇到的有趣内容整理出来。一方面帮助自己归纳总结，一方面期待给更多朋友带来</description>
+        
+        <dc:creator>小虫飞飞</dc:creator>
+        
+        
+        
+        
+        
+        
       </item>
       
 
