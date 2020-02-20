@@ -4,7 +4,7 @@
   
   <url>
     <loc>https://carbonshow.github.io/zh/</loc>
-    <lastmod>2020-02-12T00:00:00+00:00</lastmod>
+    <lastmod>2020-02-18T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -18,18 +18,18 @@
   </url>
   
   <url>
-    <loc>https://carbonshow.github.io/zh/contact/</loc>
-    <lastmod>2020-02-12T00:00:00+00:00</lastmod>
+    <loc>https://carbonshow.github.io/zh/series/web/</loc>
+    <lastmod>2020-02-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://carbonshow.github.io/zh/series/data/</loc>
-    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
+    <loc>https://carbonshow.github.io/zh/tags/blog/</loc>
+    <lastmod>2020-02-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://carbonshow.github.io/zh/categories/</loc>
-    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
+    <lastmod>2020-02-18T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -40,6 +40,71 @@
                 hreflang="zh"
                 href="https://carbonshow.github.io/zh/categories/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/tags/github/</loc>
+    <lastmod>2020-02-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/tags/hugo/</loc>
+    <lastmod>2020-02-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/series/</loc>
+    <lastmod>2020-02-18T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://carbonshow.github.io/en/series/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://carbonshow.github.io/zh/series/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/tags/</loc>
+    <lastmod>2020-02-18T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://carbonshow.github.io/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://carbonshow.github.io/zh/tags/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/categories/tools/</loc>
+    <lastmod>2020-02-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/posts/hugo_github/</loc>
+    <lastmod>2020-02-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/posts/</loc>
+    <lastmod>2020-02-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/contact/</loc>
+    <lastmod>2020-02-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://carbonshow.github.io/zh/series/data/</loc>
+    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -69,46 +134,6 @@
   
   <url>
     <loc>https://carbonshow.github.io/zh/tags/scala/</loc>
-    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://carbonshow.github.io/zh/series/</loc>
-    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://carbonshow.github.io/en/series/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://carbonshow.github.io/zh/series/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://carbonshow.github.io/zh/tags/</loc>
-    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://carbonshow.github.io/en/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://carbonshow.github.io/zh/tags/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://carbonshow.github.io/zh/categories/tools/</loc>
-    <lastmod>2020-02-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://carbonshow.github.io/zh/posts/</loc>
     <lastmod>2020-02-10T00:00:00+00:00</lastmod>
   </url>
   

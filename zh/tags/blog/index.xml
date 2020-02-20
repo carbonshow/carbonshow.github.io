@@ -6,9 +6,9 @@
   xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" 
   xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
-    <title>探险笔记 on 小虫飞飞大本营</title>
-    <link>https://carbonshow.github.io/zh/posts/</link>
-    <description>Recent content in 探险笔记 on 小虫飞飞大本营</description>
+    <title>blog on 小虫飞飞大本营</title>
+    <link>https://carbonshow.github.io/zh/tags/blog/</link>
+    <description>Recent content in blog on 小虫飞飞大本营</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <managingEditor>simon.tao.86@gmail.com (小虫飞飞)</managingEditor>
@@ -16,7 +16,7 @@
     <copyright>©{year}, All Rights Reserved</copyright>
     <lastBuildDate>Tue, 18 Feb 2020 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="https://carbonshow.github.io/zh/posts/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://carbonshow.github.io/zh/tags/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     
@@ -61,58 +61,6 @@
           
             
               <category>&#34;web&#34;</category>
-            
-          
-        
-      </item>
-      
-      <item>
-        <title>JVM上的Pandas：tablesaw</title>
-        <link>https://carbonshow.github.io/zh/posts/tablesaw/</link>
-        <pubDate>Mon, 10 Feb 2020 00:00:00 +0000</pubDate>
-        <author>simon.tao.86@gmail.com (小虫飞飞)</author>
-        <atom:modified>Mon, 10 Feb 2020 00:00:00 +0000</atom:modified>
-        <guid>https://carbonshow.github.io/zh/posts/tablesaw/</guid>
-        <description>Pandas 是 Python 界最流行的数据统计基础库之一。但像我这样和 Java/Scala 打交道的人，还是期望 JVM 有类似的解决方案。网上一搜发现生态还是很丰富的：大数据领域的 Spark ，支持</description>
-        
-        <dc:creator>小虫飞飞</dc:creator>
-        <media:content url="https://carbonshow.github.ioimages/tablesaw/tablesaw.jpeg" medium="image"><media:title type="html">featured image</media:title></media:content>
-        
-        
-        
-          
-            
-              <category>pandas</category>
-            
-          
-            
-              <category>jvm</category>
-            
-          
-            
-              <category>scala</category>
-            
-          
-            
-              <category>dataframe</category>
-            
-          
-        
-        
-          
-            
-              <category>tools</category>
-            
-          
-        
-        
-          
-            
-              <category>&#34;data</category>
-            
-          
-            
-              <category>mining&#34;</category>
             
           
         
