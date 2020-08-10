@@ -1220,6 +1220,14 @@
 <link rel="stylesheet" href="/css/main.min.css">
 
 
+
+  
+  
+    
+    <link rel="stylesheet" href="/scss/custom.min.css">
+  
+
+
     
 <meta name="description" content="介绍Cluster Sharding 的基本原理以及在kafka consumer 场景中的应用" />
 
@@ -1884,7 +1892,8 @@ Cluster Sharding 在集群内部实现消息路由，无论哪个节点接收到
 体系简介
 </h3>
 <div id="outline-text-headline-8" class="outline-text-3">
-<table>
+<figure>
+<table class="table table-striped table-dark">
 <thead>
 <tr>
 <th class="align-center">符号</th>
@@ -1920,6 +1929,10 @@ Cluster Sharding 在集群内部实现消息路由，无论哪个节点接收到
 </tr>
 </tbody>
 </table>
+<figcaption>
+Sharding 术语介绍
+</figcaption>
+</figure>
 <p>
 一个 Sharding 体系包含：/Entity, Shard, Shard Regin, Shard Coordinator/ 四个模块。Sharding 体系的区分取决于逻辑功能。比如：单局战斗事件和聊天事件，处理逻辑显然不同，通过消息类型即可区分；但同样是战斗事件，可用于消极行为裁决，也可用于数据统计，这就需要用名称区分。所以独立的 Sharding 体系可以将 <em>消息类型</em> 和 <em>名称</em> 组合作为唯一标记。Sharding 体系确定后，就定义了一类具有相同功能的 Entity 集合，这里用 EntityTypeKey[MsgType](name) 来表示。MsgType 表示这类 Entity 可以处理的消息类型，name 是字符串标记。</p>
 <p>

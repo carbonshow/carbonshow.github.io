@@ -1220,6 +1220,14 @@
 <link rel="stylesheet" href="/css/main.min.css">
 
 
+
+  
+  
+    
+    <link rel="stylesheet" href="/scss/custom.min.css">
+  
+
+
     
 <meta name="description" content="jvm中数据表分析/展示利器" />
 
@@ -1692,7 +1700,8 @@
 特点汇总
 </h4>
 <div id="outline-text-headline-4" class="outline-text-4">
-<table>
+<figure>
+<table class="table table-striped table-dark">
 <thead>
 <tr>
 <th>纬度</th>
@@ -1728,6 +1737,10 @@
 </tr>
 </tbody>
 </table>
+<figcaption>
+数据处理场景特点
+</figcaption>
+</figure>
 </div>
 </div>
 </div>
@@ -1930,9 +1943,8 @@
 </div>
 </div>
 </div>
-<p>
-   输出表格内容为：</p>
-<table>
+<figure>
+<table class="table table-striped table-dark">
 <thead>
 <tr>
 <th>date</th>
@@ -1998,6 +2010,10 @@
 </tr>
 </tbody>
 </table>
+<figcaption>
+输出表格内容
+</figcaption>
+</figure>
 <p>可以发现能够比较完美的推测，并对中文支持良好。输出 schema 为：
 <div class="box">Date column: date<br />
 String column: name<br />
@@ -2232,8 +2248,8 @@ Double column: 报酬</div></p>
 </div>
 </div>
 </div>
-<p>输出结果为：</p>
-<table>
+<figure>
+<table class="table table-striped table-dark">
 <thead>
 <tr>
 <th>date</th>
@@ -2309,6 +2325,10 @@ Double column: 报酬</div></p>
 </tr>
 </tbody>
 </table>
+<figcaption>
+输出结果
+</figcaption>
+</figure>
 </div>
 </div>
 <div id="outline-container-headline-14" class="outline-4">
@@ -2394,8 +2414,8 @@ Double column: 报酬</div></p>
 </div>
 </div>
 </div>
-<p>输出结果符合预期：</p>
-<table>
+<figure>
+<table class="table table-striped table-dark">
 <thead>
 <tr>
 <th>date</th>
@@ -2422,6 +2442,10 @@ Double column: 报酬</div></p>
 </tr>
 </tbody>
 </table>
+<figcaption>
+输出结果符合预期
+</figcaption>
+</figure>
 </div>
 </div>
 </div>
@@ -2460,7 +2484,8 @@ Double column: 报酬</div></p>
 </li>
 </ul>
 <p>举个例子，增加一个新表 tbl2 记录每人的工作地点：</p>
-<table>
+<figure>
+<table class="table table-striped table-dark">
 <thead>
 <tr>
 <th>name</th>
@@ -2482,6 +2507,10 @@ Double column: 报酬</div></p>
 </tr>
 </tbody>
 </table>
+<figcaption>
+tbl2: 工作地点
+</figcaption>
+</figure>
 <p>采用 inner 方式和 demo 表连接：</p>
 <div class="src src-scala">
 <div class="highlight"><div class="chroma">
@@ -2493,8 +2522,8 @@ Double column: 报酬</div></p>
 </div>
 </div>
 </div>
-<p>tbl3 的内容是：</p>
-<table>
+<figure>
+<table class="table table-striped table-dark">
 <thead>
 <tr>
 <th>date</th>
@@ -2540,6 +2569,10 @@ Double column: 报酬</div></p>
 </tr>
 </tbody>
 </table>
+<figcaption>
+tbl3
+</figcaption>
+</figure>
 <p>可以发现，按照 name 的交集连接，tom 和 jerry 都被过滤掉了。</p>
 </div>
 </div>
@@ -2559,7 +2592,8 @@ Double column: 报酬</div></p>
 </div>
 </div>
 </div>
-<table>
+<figure>
+<table class="table table-striped table-dark">
 <thead>
 <tr>
 <th>name</th>
@@ -2589,6 +2623,10 @@ Double column: 报酬</div></p>
 </tr>
 </tbody>
 </table>
+<figcaption>
+报酬汇总
+</figcaption>
+</figure>
 </div>
 </div>
 <div id="outline-container-headline-19" class="outline-3">
