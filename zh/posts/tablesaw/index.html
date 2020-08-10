@@ -2,18 +2,21 @@
 <html lang="zh" dir="ltr">
 
 <head prefix="og: http://ogp.me/ns#">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>JVM上的Pandas：tablesaw – 小虫飞飞大本营</title>
     
 
 
+  
+  <script defer src="/js/fuse.min.94c78ad70b02749822921660cf4e9f0b3701bc0680c421afb784a78228de0275.js"></script>
+
+
+
 <script src="/js/enquire.min.dfb99dee1e029d51d6cfb672d847929890b1585402de17f5ed092edd72a688b4.js"></script>
 
 <script defer src="/js/lazysizes.min.31dd6a2d3a1ec0f78a8df007535cf23f03aeb5c70f026e6d6a19dac3b3acc340.js"></script>
-
-<script defer src="/js/fuse.min.94c78ad70b02749822921660cf4e9f0b3701bc0680c421afb784a78228de0275.js"></script>
 
 <script defer src="/js/helper/getParents.min.1618c696be7c98933f9a92677f518b512a74e55bdbb976b09936b4182e93181b.js"></script>
 
@@ -78,7 +81,30 @@
   }
   
 
+
   document.addEventListener('DOMContentLoaded', function () {
+    
+    var navCollapseBtn = document.querySelector('.navbar__burger');
+    navCollapseBtn ? navCollapseBtn.addEventListener('click', function (e) {
+      var navCollapse = document.querySelector('.navbarm__collapse');
+
+      if (navCollapse) {
+        var dataOpen = navCollapse.getAttribute('data-open');
+
+        if (dataOpen === 'true') {
+          navCollapse.setAttribute('data-open', 'false');
+          navCollapse.style.maxHeight = 0;
+          navCollapseBtn.classList.remove('is-active');
+        } else {
+          navCollapse.setAttribute('data-open', 'true');
+          navCollapse.style.maxHeight = navCollapse.scrollHeight + "px";
+          navCollapseBtn.classList.add('is-active');
+        }
+      }
+    }) : null;
+    
+
+
     
     var summaryContainer = document.querySelector('.summary__container');
     var searchResult = document.querySelector('.search-result');
@@ -417,26 +443,44 @@
 
 
   
-    var navbarBurgerElem = document.querySelector('.navbar__burger');
-    var navbarMenuElem = document.querySelector('.navbar__menu');
-    navbarBurgerElem ?
-    navbarBurgerElem.addEventListener('click', function () {
-      if (navbarBurgerElem.classList.contains('is-active')) {
-        navbarBurgerElem.classList.remove('is-active');
-        navbarMenuElem.classList.remove('is-active');
-      } else {
-        navbarBurgerElem.classList.add('is-active');
-        navbarMenuElem.classList.add('is-active');
-      }
-    }) : null;
-  
-
-
-  
     var localTheme = localStorage.getItem('theme');
     var rootEleme = document.getElementById('root');
     var selectThemeElem = document.querySelectorAll('.select-theme');
     var selectThemeItemElem = document.querySelectorAll('.select-theme__item');
+
+    var setMetaColor = function(themeColor) {
+      var metaMsapplicationTileColor = document.getElementsByName('msapplication-TileColor')[0];
+      var metaThemeColor = document.getElementsByName('theme-color')[0];
+      var metaMsapplicationNavbuttonColor = document.getElementsByName('msapplication-navbutton-color')[0];
+      var metaAppleMobileWebAappStatusBarStyle = document.getElementsByName('apple-mobile-web-app-status-bar-style')[0];
+
+      if (themeColor.includes('dark')) {
+        metaMsapplicationTileColor.setAttribute('content', '#fcfcfa');
+        metaThemeColor.setAttribute('content', '#403E41');
+        metaMsapplicationNavbuttonColor.setAttribute('content', '#403E41');
+        metaAppleMobileWebAappStatusBarStyle.setAttribute('content', '#403E41');
+      } else if (themeColor.includes('light')) {
+        metaMsapplicationTileColor.setAttribute('content', '#555');
+        metaThemeColor.setAttribute('content', '#eee');
+        metaMsapplicationNavbuttonColor.setAttribute('content', '#eee');
+        metaAppleMobileWebAappStatusBarStyle.setAttribute('content', '#eee');
+      } else if (themeColor.includes('hacker')) {
+        metaMsapplicationTileColor.setAttribute('content', '#e3cd26');
+        metaThemeColor.setAttribute('content', '#252526');
+        metaMsapplicationNavbuttonColor.setAttribute('content', '#252526');
+        metaAppleMobileWebAappStatusBarStyle.setAttribute('content', '#252526');
+      } else if (themeColor.includes('solarized')) {
+        metaMsapplicationTileColor.setAttribute('content', '#d3af86');
+        metaThemeColor.setAttribute('content', '#51412c');
+        metaMsapplicationNavbuttonColor.setAttribute('content', '#51412c');
+        metaAppleMobileWebAappStatusBarStyle.setAttribute('content', '#51412c');
+      } else if (themeColor.includes('kimbie')) {
+        metaMsapplicationTileColor.setAttribute('content', '#586e75');
+        metaThemeColor.setAttribute('content', '#eee8d5');
+        metaMsapplicationNavbuttonColor.setAttribute('content', '#eee8d5');
+        metaAppleMobileWebAappStatusBarStyle.setAttribute('content', '#eee8d5');
+      } 
+    }
     
     if (localTheme) {
       selectThemeItemElem ? 
@@ -447,6 +491,10 @@
           elem.classList.remove('is-active');
         }
       }) : null;
+
+      setMetaColor(localTheme);
+    } else {
+      setMetaColor(rootEleme.className);
     }
 
     selectThemeItemElem ? 
@@ -454,6 +502,7 @@
       v.addEventListener('click', function (e) {
         var selectedThemeVariant = e.target.text.trim();
         localStorage.setItem('theme', selectedThemeVariant);
+        setMetaColor(selectedThemeVariant);
 
         rootEleme.removeAttribute('class');
         rootEleme.classList.add('theme__' + selectedThemeVariant);
@@ -483,12 +532,20 @@
           }
         }
 
-        var utterances = document.querySelector('iframe');
+        var utterances = document.getElementById('utterances');
         if (utterances) {
-          utterances.contentWindow.postMessage({
+          utterances.querySelector('iframe').contentWindow.postMessage({
             type: 'set-theme',
             theme: selectedThemeVariant === "dark" || selectedThemeVariant === "hacker" ? 'photon-dark' : selectedThemeVariant === 'kimbie' ? 'github-dark-orange' : 'github-light',
           }, 'https://utteranc.es');
+        }
+
+        var twitterCards = document.querySelectorAll('.twitter-timeline');
+        if (twitterCards) {
+          window.postMessage({
+            type: 'set-twitter-theme',
+            theme: selectedThemeVariant === 'light' || selectedThemeVariant === 'solarized' ? 'light' : 'dark',
+          });
         }
       });
     }) : null;
@@ -497,44 +554,59 @@
 
   
     
+    var baseurl = JSON.parse("\"https://carbonshow.github.io\"");
+    
     var permalink = JSON.parse("\"https://carbonshow.github.io/zh/posts/tablesaw/\"");
+    
+    var langprefix = JSON.parse("\"/zh\"");
     var searchResults = null;
     var searchMenu = null;
     var searchText = null;
     
+    
+    var enableSearch = JSON.parse("true");
     
     var enableSearchHighlight = JSON.parse("true");
     
     var searchResultPosition = JSON.parse("null");
     
     var sectionType = JSON.parse("\"posts\"");
-
+    
+    var kind = JSON.parse("\"page\"");
+    
     var fuse = null;
 
-    (function initFuse() {
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', permalink + "index.json");
-      xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-      xhr.onload = function () {
-        if (xhr.status === 200) {
-          fuse = new Fuse(JSON.parse(xhr.response.toString('utf-8')), {
-            keys: sectionType.includes('publication') ? ['title', 'description', 'content'] : ['title', 'abstract'],
-            includeMatches: enableSearchHighlight,
-            shouldSort: true,
-            threshold: 0.4,
-            location: 0,
-            distance: 100,
-            maxPatternLength: 32,
-            minMatchCharLength: 1,
-          });
-          window.fuse = fuse;
+    if (enableSearch) {
+      (function initFuse() {
+        var xhr = new XMLHttpRequest();
+        if (sectionType === "publication" && kind !== "page") {
+          xhr.open('GET', permalink + "index.json");
+        } else {
+          xhr.open('GET', baseurl + langprefix + "/index.json");
         }
-        else {
-          console.error('[' + xhr.status + ']Error:', xhr.statusText);
-        }
-      };
-      xhr.send();
-    })();
+        
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            fuse = new Fuse(JSON.parse(xhr.response.toString('utf-8')), {
+              keys: sectionType.includes('publication') ? ['title', 'abstract'] : ['title', 'description', 'content'],
+              includeMatches: enableSearchHighlight,
+              shouldSort: true,
+              threshold: 0.4,
+              location: 0,
+              distance: 100,
+              maxPatternLength: 32,
+              minMatchCharLength: 1,
+            });
+            window.fuse = fuse;
+          }
+          else {
+            console.error('[' + xhr.status + ']Error:', xhr.statusText);
+          }
+        };
+        xhr.send();
+      })();
+    }
 
     function makeLi(ulElem, obj) {
       var li = document.createElement('li');
@@ -1150,7 +1222,10 @@
 
     
 <meta name="description" content="jvm中数据表分析/展示利器" />
-<meta name="keywords" content="">
+
+
+<meta name="keywords" content="pandas,jvm,scala,dataframe">
+
 <meta name="created" content="2020-02-10T00:00:00&#43;0000">
 <meta name="modified" content="2020-02-10T00:00:00&#43;0000">
 <meta property="article:published_time" content="2020-02-10T00:00:00&#43;0000">
@@ -1165,10 +1240,26 @@
 <meta property="og:type" content="article">
 <meta property="og:description" content="jvm中数据表分析/展示利器">
 
-<meta name="generator" content="Hugo 0.64.0" />
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="theme-color" content="#ffffff">
+  
+    <meta property="og:image" content="https://carbonshow.github.io/images/tablesaw/tablesaw.jpeg">
+    <meta property="og:image:url" content="https://carbonshow.github.io/images/tablesaw/tablesaw.jpeg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:app:name:iphone" content="小虫飞飞大本营">
+    <meta property="twitter:title" content="JVM上的Pandas：tablesaw">
+    <meta property="twitter:description" content="jvm中数据表分析/展示利器">
+  
+
+<meta name="generator" content="Hugo 0.74.3" />
+<meta name="msapplication-TileColor" content="#fff">
+
+<meta name="theme-color" content="#fff">
+
+<meta name="msapplication-navbutton-color" content="#fff">
+
+<meta name="apple-mobile-web-app-status-bar-style" content="#fff">
+
 <link rel="canonical" href="https://carbonshow.github.io/zh/posts/tablesaw/">
+
 <link rel="manifest" href="/manifest.json">
 
   <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
@@ -1187,6 +1278,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+
 
     <script type="application/ld+json">
   {
@@ -1217,31 +1309,7 @@
 
     
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-159218005-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
   
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-159218005-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
-
 
 
 
@@ -1257,11 +1325,15 @@ if (!doNotTrack) {
         var localTheme = localStorage.getItem('theme');
         if (localTheme) {
             document.getElementById('root').className = 'theme__' + localTheme;
-        }        
+        }
     </script>
-    
     <div id="container">
         
+
+
+
+
+
         <div class="wrapper" data-type="posts" data-kind="page">
             <nav class="navbar" role="navigation" aria-label="main navigation" data-dir="ltr">
   <div class="navbar__brand">
@@ -1276,9 +1348,9 @@ if (!doNotTrack) {
       </a>
     
   </div>
+
   
-  
-<div class="theme-mobile" data-ani="true">
+<div class="theme theme-mobile" data-ani="true">
   <div class="dropdown">
     <button class="dropdown-trigger navbar__slide-down" aria-label="Select Theme Button" style="" data-ani="true">
       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="none" d="M24 0H0v24h24V0z"/><path fill="currentColor" d="M6.34 7.93c-3.12 3.12-3.12 8.19 0 11.31C7.9 20.8 9.95 21.58 12 21.58s4.1-.78 5.66-2.34c3.12-3.12 3.12-8.19 0-11.31l-4.95-4.95c-.39-.39-1.02-.39-1.41 0L6.34 7.93zM12 19.59c-1.6 0-3.11-.62-4.24-1.76C6.62 16.69 6 15.19 6 13.59s.62-3.11 1.76-4.24L12 5.1v14.49z"/></svg>      
@@ -1311,7 +1383,7 @@ if (!doNotTrack) {
   </div>
 </div>
 
-  
+
 <div id="mobileSearchBtn" class="mobile-search__btn" data-ani="true">
   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M15.5 14h-.79l-.28-.27c1.2-1.4 1.82-3.31 1.48-5.34-.47-2.78-2.79-5-5.59-5.34-4.23-.52-7.79 3.04-7.27 7.27.34 2.8 2.56 5.12 5.34 5.59 2.03.34 3.94-.28 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
 </div>
@@ -1328,15 +1400,47 @@ if (!doNotTrack) {
   </div>
 </div>
 
-  
-  <a role="button" class="navbar__burger" aria-label="menu" aria-expanded="false" data-ani="true">
-    <span aria-hidden="true"></span>
-    <span aria-hidden="true"></span>
-    <span aria-hidden="true"></span>
-  </a>  
 
-  <div class="navbar__menu">
+<a role="button" class="navbar__burger" aria-label="menu" aria-expanded="false"
+  data-ani="true">
+  <span aria-hidden="true"></span>
+  <span aria-hidden="true"></span>
+  <span aria-hidden="true"></span>
+</a>
+<div class="navbarm__collapse" data-open="false">
+  <ul dir="ltr">
     
+    
+      
+      
+      
+      
+
+      
+        <li class="navbarm__menu--item ">
+          <a href="/zh/about">关于</a>
+        </li>
+      
+      
+    
+      
+      
+      
+      
+
+      
+        <li class="navbarm__menu--item active">
+          <a href="/zh/posts">探险笔记</a>
+        </li>
+      
+      
+    
+
+    
+  </ul>
+</div>
+  <div class="navbar__menu">
+  
 <div class="theme" data-ani="true">
   <div class="dropdown">
     <button class="dropdown-trigger navbar__slide-down" aria-label="Select Theme Button" data-ani="true">
@@ -1370,25 +1474,25 @@ if (!doNotTrack) {
   </div>
 </div>
 
-    
-    
-      
-      
-      
-      
-      
-        <a href="/zh/about" class="navbar__menu-item navbar__slide-down " dir="ltr" data-ani="true">关于</a>
-      
-    
-      
-      
-      
-      
-      
-        <a href="/zh/posts" class="navbar__menu-item navbar__slide-down active" dir="ltr" data-ani="true">探险笔记</a>
-      
-    
-  </div>
+  
+  
+  
+  
+  
+  
+  
+  <a href="/zh/about" class="navbar__menu-item navbar__slide-down " dir="ltr" data-ani="true">关于</a>
+  
+  
+  
+  
+  
+  
+  
+  <a href="/zh/posts" class="navbar__menu-item navbar__slide-down active" dir="ltr" data-ani="true">探险笔记</a>
+  
+  
+</div>
 </nav>
             
             
@@ -1428,46 +1532,39 @@ if (!doNotTrack) {
   
 </nav>
   
-  <noscript>
-    Please enable Javascript to view the contents
-  </noscript>
-  <div class="single hide">
-    <script>document.querySelector('.single').classList.remove('hide')</script>
+  
+  <div class="single ">
+    <div class="single__nojs">Please enable Javascript to view the contents</div>
+    <script>document.querySelector('.single').classList.remove('hide'); document.querySelector('.single__nojs').classList.add('hide');</script>
     <h2 class="single__title" data-ani="true">JVM上的Pandas：tablesaw</h2>
     <div class="single__meta">
       
 <div class="single__infos">
-  <time class="single__info" title="创建日期">📅&nbsp;2020年02月10日 </time>  &middot; <span class="single__info" title="阅读时长"> ☕ 9 分钟 </span>&middot; <span class="single__info" title="作者">✍️&nbsp;小虫飞飞</span>
+  <time class="single__info" title="创建日期">📅&nbsp;2020年02月10日 </time>
+  
+  &nbsp;&middot;&nbsp; <span class="single__info" title="阅读时长"> ☕&nbsp;9&nbsp;分钟 </span>
+  
+  &nbsp;&middot;&nbsp; <span class="single__info" title="作者">✍️&nbsp;小虫飞飞</span>
+  
   <span class="single__info">
     
   </span>
 </div>
       
-<div class="single__tags caption">
-
+<ul class="single__tags caption">
   
-    🏷️
-  
-  
-    <li><a href="https://carbonshow.github.io/zh/tags/pandas/" class="single__tag" title="pandas">#pandas</a></li>
+  🏷️
   
 
-  
-  
-    <li><a href="https://carbonshow.github.io/zh/tags/jvm/" class="single__tag" title="jvm">#jvm</a></li>
-  
+  <li><a href="https://carbonshow.github.io/zh/tags/pandas/" class="single__tag" title="pandas">#pandas</a></li>
 
-  
-  
-    <li><a href="https://carbonshow.github.io/zh/tags/scala/" class="single__tag" title="scala">#scala</a></li>
-  
+  <li><a href="https://carbonshow.github.io/zh/tags/jvm/" class="single__tag" title="jvm">#jvm</a></li>
 
-  
-  
-    <li><a href="https://carbonshow.github.io/zh/tags/dataframe/" class="single__tag" title="dataframe">#dataframe</a></li>
-  
+  <li><a href="https://carbonshow.github.io/zh/tags/scala/" class="single__tag" title="scala">#scala</a></li>
 
-</div>
+  <li><a href="https://carbonshow.github.io/zh/tags/dataframe/" class="single__tag" title="dataframe">#dataframe</a></li>
+
+</ul>
     </div>
     <article class="single__contents" data-dir="ltr" data-ani="true">
       
@@ -1540,59 +1637,61 @@ if (!doNotTrack) {
 
       
 <blockquote>
-<p>
-<a href="https://pandas.pydata.org/">Pandas</a> 是 <code class="verbatim">Python</code> 界最流行的数据统计基础库之一。但像我这样和 <code class="verbatim">Java/Scala</code> 打交道的人，还是期望 <code class="verbatim">JVM</code> 有类似的解决方案。网上一搜发现生态还是很丰富的：大数据领域的 <a href="https://spark.apache.org">Spark</a> ，支持 GUI 的数据挖掘套件 <a href="https://www.cs.waikato.ac.nz/ml/weka">weka</a> ，主攻机器学习的 <a href="http://haifengl.github.io/">smile</a> ，擅长聚合变换的 <a href="https://github.com/cardillo/joinery">joinery</a> 等等。但小虫最终还是选择了简约而不简单的 <a href="https://jtablesaw.github.io/tablesaw/">tablesaw</a> 。缘由还得从那句老话说起： <em>离开场景谈应用都是耍流氓</em> 。
-</p>
+<p><a href="https://pandas.pydata.org/">Pandas</a> 是 <code class="verbatim">Python</code> 界最流行的数据统计基础库之一。但像我这样和 <code class="verbatim">Java/Scala</code> 打交道的人，还是期望 <code class="verbatim">JVM</code> 有类似的解决方案。网上一搜发现生态还是很丰富的：大数据领域的 <a href="https://spark.apache.org">Spark</a> ，支持 GUI 的数据挖掘套件 <a href="https://www.cs.waikato.ac.nz/ml/weka">weka</a> ，主攻机器学习的 <a href="http://haifengl.github.io/">smile</a> ，擅长聚合变换的 <a href="https://github.com/cardillo/joinery">joinery</a> 等等。但小虫最终还是选择了简约而不简单的 <a href="https://jtablesaw.github.io/tablesaw/">tablesaw</a> 。缘由还得从那句老话说起： <em>离开场景谈应用都是耍流氓</em> 。</p>
 </blockquote>
+<div id="outline-container-headline-1" class="outline-2">
 <h2 id="headline-1">
 应用场景
 </h2>
+<div id="outline-text-headline-1" class="outline-text-2">
+<div id="outline-container-headline-2" class="outline-4">
 <h4 id="headline-2">
 数据：处理流程
 </h4>
+<div id="outline-text-headline-2" class="outline-text-4">
 <p>
+
 <figure >
   
-    
-    <img data-src="/images/tablesaw/%e5%b7%a5%e4%bd%9c%e7%8e%af%e5%a2%83.png" alt="工作环境" data-caption="" src="data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='none' d='M0 0h24v24H0V0z'/%3E%3Cpath fill='%23aaa' d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 16H6c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h12c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1zm-4.44-6.19l-2.35 3.02-1.56-1.88c-.2-.25-.58-.24-.78.01l-1.74 2.23c-.26.33-.02.81.39.81h8.98c.41 0 .65-.47.4-.8l-2.55-3.39c-.19-.26-.59-.26-.79 0z'/%3E%3C/svg%3E" class="lazyload" width="600px" height=""/>
+    <img data-src="/images/tablesaw/%e5%b7%a5%e4%bd%9c%e7%8e%af%e5%a2%83.png" alt="工作环境" data-caption="" src="data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='600px' height='' viewBox='0 0 24 24'%3E%3Cpath fill='none' d='M0 0h24v24H0V0z'/%3E%3Cpath fill='%23aaa' d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 16H6c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h12c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1zm-4.44-6.19l-2.35 3.02-1.56-1.88c-.2-.25-.58-.24-.78.01l-1.74 2.23c-.26.33-.02.81.39.81h8.98c.41 0 .65-.47.4-.8l-2.55-3.39c-.19-.26-.59-.26-.79 0z'/%3E%3C/svg%3E" class="lazyload" style="width:600px;height:;"/>
     
   
-  <figcaption style="text-align: ">
+    <figcaption style="text-align: ">
     <strong>工作环境</strong>:
     
   </figcaption>
   
 </figure>
-    小虫在工作中使用 <code class="verbatim">Spark</code> 将业务产生的海量用户行为按模块加工：过滤冗余/简单汇总，并导出至 <code class="verbatim">PostgreSQL</code> 的不同表中，存储正交化的基础数据。比如用户的登陆/购买行为分别记录到， <code class="verbatim">LoginTable</code> 和 <code class="verbatim">ShoppingTable</code> 。然后在 <code class="verbatim">二次处理</code> 模块中建立不同服务，比如 S1，S2。S1 直接访问数据库，S2 的既要访问数据库，又要访问 S1 的统计结果，还要依赖本地的 csv 文件。
-</p>
+
+    小虫在工作中使用 <code class="verbatim">Spark</code> 将业务产生的海量用户行为按模块加工：过滤冗余/简单汇总，并导出至 <code class="verbatim">PostgreSQL</code> 的不同表中，存储正交化的基础数据。比如用户的登陆/购买行为分别记录到， <code class="verbatim">LoginTable</code> 和 <code class="verbatim">ShoppingTable</code> 。然后在 <code class="verbatim">二次处理</code> 模块中建立不同服务，比如 S1，S2。S1 直接访问数据库，S2 的既要访问数据库，又要访问 S1 的统计结果，还要依赖本地的 csv 文件。</p>
+</div>
+</div>
+<div id="outline-container-headline-3" class="outline-4">
 <h4 id="headline-3">
 计算需求分类
 </h4>
+<div id="outline-text-headline-3" class="outline-text-4">
 <ul>
 <li>
-<p>
-查询计算。整表查询，列的统计，变换等。
-</p>
+<p>查询计算。整表查询，列的统计，变换等。</p>
 </li>
 <li>
-<p>
-筛选排序。条件查询，自定义多重排序等。
-</p>
+<p>筛选排序。条件查询，自定义多重排序等。</p>
 </li>
 <li>
-<p>
-聚合连接。比如 <code class="verbatim">LoginTable</code> 记录终端类型：android/iOS； <code class="verbatim">ShoppingTable</code> 记录了用户购买物品的种类和数量。当要对比不同终端用户购买行为差异时，就要将两个表连接并按终端类型聚合。
-</p>
+<p>聚合连接。比如 <code class="verbatim">LoginTable</code> 记录终端类型：android/iOS； <code class="verbatim">ShoppingTable</code> 记录了用户购买物品的种类和数量。当要对比不同终端用户购买行为差异时，就要将两个表连接并按终端类型聚合。</p>
 </li>
 <li>
-<p>
-模型验证。评估决策需要的分析模型多变，要经过反复调整得到最终结果。关键在于 <strong>快速迭代</strong> 。
-</p>
+<p>模型验证。评估决策需要的分析模型多变，要经过反复调整得到最终结果。关键在于 <strong>快速迭代</strong> 。</p>
 </li>
 </ul>
+</div>
+</div>
+<div id="outline-container-headline-4" class="outline-4">
 <h4 id="headline-4">
 特点汇总
 </h4>
+<div id="outline-text-headline-4" class="outline-text-4">
 <table>
 <thead>
 <tr>
@@ -1629,76 +1728,67 @@ if (!doNotTrack) {
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-5" class="outline-2">
 <h2 id="headline-5">
 为何选择 tablesaw
 </h2>
+<div id="outline-text-headline-5" class="outline-text-2">
 <p>
-  很简单，就因为它完美契合小虫的应用场景。借用 <a href="https://github.com/jtablesaw/tablesaw">tablesaw官网</a> 的特性列表：
-</p>
+  很简单，就因为它完美契合小虫的应用场景。借用 <a href="https://github.com/jtablesaw/tablesaw">tablesaw官网</a> 的特性列表：</p>
 <ul>
 <li>
-<p>
-数据导入：RDBMS，Excel，CSV，Json，HTML 或固定宽度文件。除了支持本地访问，还支持通过 http，S3 等远程访问。
-</p>
+<p>数据导入：RDBMS，Excel，CSV，Json，HTML 或固定宽度文件。除了支持本地访问，还支持通过 http，S3 等远程访问。</p>
 </li>
 <li>
-<p>
-数据导出：CSV，Json，HTML 或固定宽度文件。
-</p>
+<p>数据导出：CSV，Json，HTML 或固定宽度文件。</p>
 </li>
 <li>
-<p>
-表格操作：类似 <code class="verbatim">Pandas DataFrame</code> ，增删改查，连接，排序。
-</p>
+<p>表格操作：类似 <code class="verbatim">Pandas DataFrame</code> ，增删改查，连接，排序。</p>
 </li>
 </ul>
-<p>
-以上是基础功能，小虫觉得下面几个点更有意思：
-</p>
+<p>以上是基础功能，小虫觉得下面几个点更有意思：</p>
 <ul>
 <li>
-<p>
-基于<a href="https://plot.ly/">Plotly</a> 的可视化框架。摆脱 <code class="verbatim">java</code> 的 UI 系统，更好的和 Web 对接。支持 2D、3D 视图，图表类型也很丰富：曲线，散点，箱形统计，蜡烛图，热力图，饼状图等。更重要的是：
-</p>
+<p>基于<a href="https://plot.ly/">Plotly</a> 的可视化框架。摆脱 <code class="verbatim">java</code> 的 UI 系统，更好的和 Web 对接。支持 2D、3D 视图，图表类型也很丰富：曲线，散点，箱形统计，蜡烛图，热力图，饼状图等。更重要的是：</p>
 <ul>
 <li>
-<p>
-交互式图表。特别适合多种数据集对比，以及三维视角旋转。
-</p>
+<p>交互式图表。特别适合多种数据集对比，以及三维视角旋转。</p>
 </li>
 <li>
-<p>
-图表导出为字符串形式 <code class="verbatim">Javascript</code> 。方便结合 Web Service 渲染 html。
-</p>
+<p>图表导出为字符串形式 <code class="verbatim">Javascript</code> 。方便结合 Web Service 渲染 html。</p>
 </li>
 </ul>
 </li>
 <li>
-<p>
-与 <code class="verbatim">smile</code> 对接。tablesaw 可将表格导出为 <code class="verbatim">smile</code> 识别的数据格式，便于利用其强大的机器学习库。
-</p>
+<p>与 <code class="verbatim">smile</code> 对接。tablesaw 可将表格导出为 <code class="verbatim">smile</code> 识别的数据格式，便于利用其强大的机器学习库。</p>
 </li>
 </ul>
-<p>
-好了，说了这么多，直接上干货吧。
-</p>
+<p>好了，说了这么多，直接上干货吧。</p>
+</div>
+</div>
+<div id="outline-container-headline-6" class="outline-2">
 <h2 id="headline-6">
 基本应用
 </h2>
+<div id="outline-text-headline-6" class="outline-text-2">
+<div id="outline-container-headline-7" class="outline-3">
 <h3 id="headline-7">
 安装
 </h3>
-<p>
-<code class="verbatim">tablesaw</code> 包含多个库，小虫推荐安装 <code class="verbatim">tablesaw-core</code> 和 <code class="verbatim">tablesaw-jsplot</code> 。前者是基础库，后者用于渲染图表。其它如 tablesaw-html, tablesaw-json, tablesaw-breakerx 主要是对数据格式变化的支持，可按需选择。其实结合需求写两行代码就行，轻量又灵活。以 <code class="verbatim">tablesaw-core</code> 为例说明 Jar 包安装方法：
-</p>
+<div id="outline-text-headline-7" class="outline-text-3">
+<p><code class="verbatim">tablesaw</code> 包含多个库，小虫推荐安装 <code class="verbatim">tablesaw-core</code> 和 <code class="verbatim">tablesaw-jsplot</code> 。前者是基础库，后者用于渲染图表。其它如 tablesaw-html, tablesaw-json, tablesaw-breakerx 主要是对数据格式变化的支持，可按需选择。其实结合需求写两行代码就行，轻量又灵活。以 <code class="verbatim">tablesaw-core</code> 为例说明 Jar 包安装方法：</p>
 <p>
 
-<div id="7f4b56055ca67724" class="tab">
+<div id="dfb000e0c7c6500a" class="tab">
   <div class="tab__links">
     
-    <button class="tab__link" aria-label="Tab link">maven</button>
+      <button class="tab__link" aria-label="Tab link">maven</button>
     
-    <button class="tab__link" aria-label="Tab link">sbt</button>
+      <button class="tab__link" aria-label="Tab link">sbt</button>
     
   </div>
   
@@ -1714,11 +1804,11 @@ if (!doNotTrack) {
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="c">&lt;!--</span><span class="c"> https://mvnrepository.com/artifact/tech.tablesaw/tablesaw</span><span class="c">-</span><span class="c">core </span><span class="c">--&gt;</span>
-<span class="nt">&lt;dependency</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;groupId</span><span class="nt">&gt;</span>tech.tablesaw<span class="nt">&lt;/groupId&gt;</span>
-  <span class="nt">&lt;artifactId</span><span class="nt">&gt;</span>tablesaw-core<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version</span><span class="nt">&gt;</span>0.37.3<span class="nt">&lt;/version&gt;</span>
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="c">&lt;!-- https://mvnrepository.com/artifact/tech.tablesaw/tablesaw-core --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>tech.tablesaw<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>tablesaw-core<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>0.37.3<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre></td></tr></table>
 </div>
@@ -1744,7 +1834,7 @@ if (!doNotTrack) {
 <script>
   'use strict';
 
-  var containerId = JSON.parse("\"7f4b56055ca67724\"");
+  var containerId = JSON.parse("\"dfb000e0c7c6500a\"");
   var containerElem = document.getElementById(containerId);
   var tabLinks = null;
   var tabContents = null;
@@ -1777,46 +1867,45 @@ if (!doNotTrack) {
   if (tabContents.length > 0) {
     tabContents[0].style.display = 'block';
   }
-</script>
-</p>
+</script></p>
+</div>
+</div>
+<div id="outline-container-headline-8" class="outline-3">
 <h3 id="headline-8">
 表格创建
 </h3>
+<div id="outline-text-headline-8" class="outline-text-3">
 <p>
-   两种基本方式：
-</p>
+   两种基本方式：</p>
 <ul>
 <li>
-<p>
-从数据源读取直接创建
-</p>
+<p>从数据源读取直接创建</p>
 </li>
 <li>
-<p>
-创建空表格编码增加列或行
-</p>
+<p>创建空表格编码增加列或行</p>
 </li>
 </ul>
-<p>
+
+
 <figure >
   
-    
-    <img data-src="/images/tablesaw/%e8%a1%a8%e6%a0%bc%e5%88%9b%e5%bb%ba%e6%b5%81%e7%a8%8b.png" alt="表格创建流程" data-caption="" src="data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='none' d='M0 0h24v24H0V0z'/%3E%3Cpath fill='%23aaa' d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 16H6c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h12c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1zm-4.44-6.19l-2.35 3.02-1.56-1.88c-.2-.25-.58-.24-.78.01l-1.74 2.23c-.26.33-.02.81.39.81h8.98c.41 0 .65-.47.4-.8l-2.55-3.39c-.19-.26-.59-.26-.79 0z'/%3E%3C/svg%3E" class="lazyload" width="600px" height=""/>
+    <img data-src="/images/tablesaw/%e8%a1%a8%e6%a0%bc%e5%88%9b%e5%bb%ba%e6%b5%81%e7%a8%8b.png" alt="表格创建流程" data-caption="" src="data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='600px' height='' viewBox='0 0 24 24'%3E%3Cpath fill='none' d='M0 0h24v24H0V0z'/%3E%3Cpath fill='%23aaa' d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 16H6c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h12c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1zm-4.44-6.19l-2.35 3.02-1.56-1.88c-.2-.25-.58-.24-.78.01l-1.74 2.23c-.26.33-.02.81.39.81h8.98c.41 0 .65-.47.4-.8l-2.55-3.39c-.19-.26-.59-.26-.79 0z'/%3E%3C/svg%3E" class="lazyload" style="width:600px;height:;"/>
     
   
-  <figcaption style="text-align: ">
+    <figcaption style="text-align: ">
     <strong>表格创建流程</strong>:
     
   </figcaption>
   
 </figure>
-</p>
+
 <p>
-   下面先定义需要处理的 csv 文件格式。第一列为日期，第二列为姓名，第三列为工时（当日工作时长，单位是小时），第四列为报酬（单位是元）。然后举三个典型例子来说明导入的不同方式。
-</p>
+   下面先定义需要处理的 csv 文件格式。第一列为日期，第二列为姓名，第三列为工时（当日工作时长，单位是小时），第四列为报酬（单位是元）。然后举三个典型例子来说明导入的不同方式。</p>
+<div id="outline-container-headline-9" class="outline-4">
 <h4 id="headline-9">
 1. CSV 直接导入 
 </h4>
+<div id="outline-text-headline-9" class="outline-text-4">
 <div class="src src-scala">
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1831,19 +1920,18 @@ if (!doNotTrack) {
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-scala" data-lang="scala"><span class="c1">// 读取csv文件input.csv 自动推测schema
-</span><span class="c1"></span><span class="k">val</span> <span class="n">tbl</span> <span class="k">=</span> <span class="nc">Table</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="o">)</span><span class="o">.</span><span class="n">csv</span><span class="o">(</span><span class="s">&#34;input.csv&#34;</span><span class="o">)</span>
+</span><span class="c1"></span><span class="k">val</span> <span class="n">tbl</span> <span class="k">=</span> <span class="nc">Table</span><span class="o">.</span><span class="n">read</span><span class="o">().</span><span class="n">csv</span><span class="o">(</span><span class="s">&#34;input.csv&#34;</span><span class="o">)</span>
 
 <span class="c1">// 产看读入的表格内容
-</span><span class="c1"></span><span class="n">println</span><span class="o">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">printAll</span><span class="o">(</span><span class="o">)</span><span class="o">)</span>
+</span><span class="c1"></span><span class="n">println</span><span class="o">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">printAll</span><span class="o">())</span>
 
 <span class="c1">// 查看schema
-</span><span class="c1"></span><span class="n">println</span><span class="o">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">columnArray</span><span class="o">(</span><span class="o">)</span><span class="o">.</span><span class="n">mkString</span><span class="o">(</span><span class="s">&#34;\n&#34;</span><span class="o">)</span><span class="o">)</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="n">println</span><span class="o">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">columnArray</span><span class="o">().</span><span class="n">mkString</span><span class="o">(</span><span class="s">&#34;\n&#34;</span><span class="o">))</span></code></pre></td></tr></table>
 </div>
 </div>
 </div>
 <p>
-   输出表格内容为：
-</p>
+   输出表格内容为：</p>
 <table>
 <thead>
 <tr>
@@ -1910,32 +1998,28 @@ if (!doNotTrack) {
 </tr>
 </tbody>
 </table>
-<p>
-可以发现能够比较完美的推测，并对中文支持良好。输出 schema 为：
+<p>可以发现能够比较完美的推测，并对中文支持良好。输出 schema 为：
 <div class="box">Date column: date<br />
 String column: name<br />
 Double column: 工时<br />
 Integer column: 报酬</div>
-   <code class="verbatim">tablesaw</code> 目前支持的数据类型有以下几种：SHORT, INTEGER, LONG ,FLOAT ,BOOLEAN ,STRING ,DOUBLE ,LOCAL_DATE ,LOCAL_TIME ,LOCAL_DATE_TIME ,INSTANT, TEXT, SKIP。绝大部分列和普通数据表类型没有差异，为一需要强调的是：
-</p>
+   <code class="verbatim">tablesaw</code> 目前支持的数据类型有以下几种：SHORT, INTEGER, LONG ,FLOAT ,BOOLEAN ,STRING ,DOUBLE ,LOCAL_DATE ,LOCAL_TIME ,LOCAL_DATE_TIME ,INSTANT, TEXT, SKIP。绝大部分列和普通数据表类型没有差异，为一需要强调的是：</p>
 <ul>
 <li>
-<p>
-INSTANT。可以精确到纳秒的时间戳，自 Java 8 引入。
-</p>
+<p>INSTANT。可以精确到纳秒的时间戳，自 Java 8 引入。</p>
 </li>
 <li>
-<p>
-SKIP。指定列忽略不读入。
-</p>
+<p>SKIP。指定列忽略不读入。</p>
 </li>
 </ul>
+</div>
+</div>
+<div id="outline-container-headline-10" class="outline-4">
 <h4 id="headline-10">
 2. 指定 schema 从 CSV 导入
 </h4>
-<p>
-有时自动推测并不会非常精准，比如期望使用 LONG ，但识别为 INTEGER ；或在读入后追加数据时类型会有变化，比如报酬读入是整型但随后动态增加会有浮点数据。这时就需要预先设定 csv 的 schema ，这时可以利用 tablesaw 提供的 <code class="verbatim">CsvReadOptions</code> 实现。比如预先设置报酬为浮点：
-</p>
+<div id="outline-text-headline-10" class="outline-text-4">
+<p>有时自动推测并不会非常精准，比如期望使用 LONG ，但识别为 INTEGER ；或在读入后追加数据时类型会有变化，比如报酬读入是整型但随后动态增加会有浮点数据。这时就需要预先设定 csv 的 schema ，这时可以利用 tablesaw 提供的 <code class="verbatim">CsvReadOptions</code> 实现。比如预先设置报酬为浮点：</p>
 <div class="src src-scala">
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1956,34 +2040,35 @@ SKIP。指定列忽略不读入。
 
 <span class="c1">// 按序指定csv 各列的数据类型
 </span><span class="c1"></span><span class="k">val</span> <span class="n">colTypes</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">ColumnType</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span><span class="nc">ColumnType</span><span class="o">.</span><span class="nc">LOCAL_DATE</span><span class="o">,</span> <span class="nc">ColumnType</span><span class="o">.</span><span class="nc">STRING</span><span class="o">,</span> <span class="nc">ColumnType</span><span class="o">.</span><span class="nc">DOUBLE</span><span class="o">,</span> <span class="nc">ColumnType</span><span class="o">.</span><span class="nc">DOUBLE</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">csvReadOptions</span> <span class="k">=</span> <span class="nc">CsvReadOptions</span><span class="o">.</span><span class="n">builder</span><span class="o">(</span><span class="s">&#34;demo.csv&#34;</span><span class="o">)</span><span class="o">.</span><span class="n">columnTypes</span><span class="o">(</span><span class="n">colTypes</span><span class="o">)</span>
-<span class="k">val</span> <span class="n">tbl</span> <span class="k">=</span> <span class="nc">Table</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="o">)</span><span class="o">.</span><span class="n">usingOptions</span><span class="o">(</span><span class="n">csvReadOptions</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">csvReadOptions</span> <span class="k">=</span> <span class="nc">CsvReadOptions</span><span class="o">.</span><span class="n">builder</span><span class="o">(</span><span class="s">&#34;demo.csv&#34;</span><span class="o">).</span><span class="n">columnTypes</span><span class="o">(</span><span class="n">colTypes</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">tbl</span> <span class="k">=</span> <span class="nc">Table</span><span class="o">.</span><span class="n">read</span><span class="o">().</span><span class="n">usingOptions</span><span class="o">(</span><span class="n">csvReadOptions</span><span class="o">)</span>
 
 <span class="c1">// 查看schema
-</span><span class="c1"></span><span class="n">println</span><span class="o">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">columnArray</span><span class="o">(</span><span class="o">)</span><span class="o">.</span><span class="n">mkString</span><span class="o">(</span><span class="s">&#34;\n&#34;</span><span class="o">)</span><span class="o">)</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="n">println</span><span class="o">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">columnArray</span><span class="o">().</span><span class="n">mkString</span><span class="o">(</span><span class="s">&#34;\n&#34;</span><span class="o">))</span></code></pre></td></tr></table>
 </div>
 </div>
 </div>
-<p>
-输出 schema 为：
+<p>输出 schema 为：
 <div class="box">Date column: date<br />
 String column: name<br />
 Double column: 工时<br />
-Double column: 报酬</div>
-</p>
+Double column: 报酬</div></p>
+</div>
+</div>
+<div id="outline-container-headline-11" class="outline-4">
 <h4 id="headline-11">
 3. 编码设定 schema 和数据填充
 </h4>
-<p>
-该方法适合各种场景，可以运行时从不同数据源导入数据。
-<div class="box">基本流程是：</p>
+<div id="outline-text-headline-11" class="outline-text-4">
+<p>该方法适合各种场景，可以运行时从不同数据源导入数据。
+<div class="box"><p>基本流程是：</p>
 <ul>
 <li>创建空表格，同时设定名称</li>
 <li>设定 schema：向表格中按序增加指定了 =名称= 和 =数据类型= 的列。</li>
 <li>向表格中按行追加数据。每行中的元素分别添加到指定列中。</li>
-</ul></div>
-    将之前的例子做些变化，假设数据来自于网络，序列化到本地内存的数据结构为：
-</p>
+</ul>
+</div>
+    将之前的例子做些变化，假设数据来自于网络，序列化到本地内存的数据结构为：</p>
 <div class="src src-scala">
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1996,9 +2081,7 @@ Double column: 报酬</div>
 </div>
 </div>
 </div>
-<p>
-创建一个函数将获取的数据集合添加到表格中：
-</p>
+<p>创建一个函数将获取的数据集合添加到表格中：</p>
 <div class="src src-scala">
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -2030,26 +2113,26 @@ Double column: 报酬</div>
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-scala" data-lang="scala"><span class="c1">// @param tableName 表格名称
-</span><span class="c1"></span><span class="c1">// @param colNames  表格各列的名称列表
-</span><span class="c1"></span><span class="c1">// @param colTypes  表格各列的数据类型列表
-</span><span class="c1"></span><span class="c1">// @param rows      列数据
-</span><span class="c1"></span><span class="k">def</span> <span class="n">createTable</span><span class="o">(</span><span class="n">tblName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">colNames</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span><span class="o">,</span> <span class="n">colTypes</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">ColumnType</span><span class="o">]</span><span class="o">,</span> <span class="n">rows</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">RowData</span><span class="o">]</span><span class="o">)</span><span class="k">:</span> <span class="kt">Table</span> <span class="o">=</span> <span class="o">{</span>
+</span><span class="c1">// @param colNames  表格各列的名称列表
+</span><span class="c1">// @param colTypes  表格各列的数据类型列表
+</span><span class="c1">// @param rows      列数据
+</span><span class="c1"></span><span class="k">def</span> <span class="n">createTable</span><span class="o">(</span><span class="n">tblName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">colNames</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">String</span><span class="o">],</span> <span class="n">colTypes</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">ColumnType</span><span class="o">],</span> <span class="n">rows</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">RowData</span><span class="o">])</span><span class="k">:</span> <span class="kt">Table</span> <span class="o">=</span> <span class="o">{</span>
   <span class="c1">// 创建表格设定名称
 </span><span class="c1"></span>  <span class="k">val</span> <span class="n">tbl</span> <span class="k">=</span> <span class="nc">Table</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">tblName</span><span class="o">)</span>
 
   <span class="c1">// 创建schema ：按序增加列
 </span><span class="c1"></span>  <span class="k">val</span> <span class="n">colCnt</span> <span class="k">=</span> <span class="n">math</span><span class="o">.</span><span class="n">min</span><span class="o">(</span><span class="n">colTypes</span><span class="o">.</span><span class="n">length</span><span class="o">,</span> <span class="n">colNames</span><span class="o">.</span><span class="n">length</span><span class="o">)</span>
-  <span class="k">val</span> <span class="n">cols</span> <span class="k">=</span> <span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">colCnt</span><span class="o">)</span><span class="o">.</span><span class="n">map</span> <span class="o">{</span> <span class="n">i</span> <span class="k">=&gt;</span>
-    <span class="n">colTypes</span><span class="o">(</span><span class="n">i</span><span class="o">)</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="n">colNames</span><span class="o">(</span><span class="n">i</span><span class="o">)</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">cols</span> <span class="k">=</span> <span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">colCnt</span><span class="o">).</span><span class="n">map</span> <span class="o">{</span> <span class="n">i</span> <span class="k">=&gt;</span>
+    <span class="n">colTypes</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="n">create</span><span class="o">(</span><span class="n">colNames</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
   <span class="o">}</span>
   <span class="n">tbl</span><span class="o">.</span><span class="n">addColumns</span><span class="o">(</span><span class="n">cols</span><span class="k">:</span> <span class="k">_</span><span class="kt">*</span><span class="o">)</span>
 
   <span class="c1">// 添加数据
 </span><span class="c1"></span>  <span class="n">rows</span><span class="o">.</span><span class="n">foreach</span> <span class="o">{</span> <span class="n">row</span> <span class="k">=&gt;</span>
-    <span class="n">tbl</span><span class="o">.</span><span class="n">dateColumn</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span><span class="o">.</span><span class="n">append</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="n">date</span><span class="o">)</span>
-    <span class="n">tbl</span><span class="o">.</span><span class="n">stringColumn</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span><span class="o">.</span><span class="n">append</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="n">name</span><span class="o">)</span>
-    <span class="n">tbl</span><span class="o">.</span><span class="n">doubleColumn</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span><span class="o">.</span><span class="n">append</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="n">workTime</span><span class="o">)</span>
-    <span class="n">tbl</span><span class="o">.</span><span class="n">doubleColumn</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span><span class="o">.</span><span class="n">append</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="n">salary</span><span class="o">)</span>
+    <span class="n">tbl</span><span class="o">.</span><span class="n">dateColumn</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="n">append</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="n">date</span><span class="o">)</span>
+    <span class="n">tbl</span><span class="o">.</span><span class="n">stringColumn</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">append</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="n">name</span><span class="o">)</span>
+    <span class="n">tbl</span><span class="o">.</span><span class="n">doubleColumn</span><span class="o">(</span><span class="mi">2</span><span class="o">).</span><span class="n">append</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="n">workTime</span><span class="o">)</span>
+    <span class="n">tbl</span><span class="o">.</span><span class="n">doubleColumn</span><span class="o">(</span><span class="mi">3</span><span class="o">).</span><span class="n">append</span><span class="o">(</span><span class="n">row</span><span class="o">.</span><span class="n">salary</span><span class="o">)</span>
   <span class="o">}</span>
 
   <span class="n">tbl</span>
@@ -2057,21 +2140,23 @@ Double column: 报酬</div>
 </div>
 </div>
 </div>
-<p>
-上面的说明了数据添加的完整过程：创建表格，增加列，列中追加元素。基于这三个基本操作基本可以实现所有的创建和形变。
-</p>
+<p>上面的说明了数据添加的完整过程：创建表格，增加列，列中追加元素。基于这三个基本操作基本可以实现所有的创建和形变。</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-12" class="outline-3">
 <h3 id="headline-12">
 列处理
 </h3>
-<p>
-列操作是表格处理的基础。前面介绍了列的数据类型，名称设置和元素追加，下面继续介绍几个基础操作。
-</p>
+<div id="outline-text-headline-12" class="outline-text-3">
+<p>列操作是表格处理的基础。前面介绍了列的数据类型，名称设置和元素追加，下面继续介绍几个基础操作。</p>
+<div id="outline-container-headline-13" class="outline-4">
 <h4 id="headline-13">
 1. 遍历与形变
 </h4>
-<p>
-比如按序输出 demo 表格中所有记录的姓名：
-</p>
+<div id="outline-text-headline-13" class="outline-text-4">
+<p>比如按序输出 demo 表格中所有记录的姓名：</p>
 <div class="src src-scala">
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -2091,8 +2176,8 @@ Double column: 报酬</div>
 </span><span class="c1"></span><span class="k">val</span> <span class="n">nameCol</span> <span class="k">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">stringColumn</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">)</span>
 
 <span class="c1">// 根据行号遍历
-</span><span class="c1"></span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">nameCol</span><span class="o">.</span><span class="n">size</span><span class="o">(</span><span class="o">)</span><span class="o">)</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span> <span class="n">i</span> <span class="k">=&gt;</span>
-      <span class="n">println</span><span class="o">(</span><span class="n">nameCol</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="n">i</span><span class="o">)</span><span class="o">)</span>
+</span><span class="c1"></span><span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">nameCol</span><span class="o">.</span><span class="n">size</span><span class="o">()).</span><span class="n">foreach</span><span class="o">(</span> <span class="n">i</span> <span class="k">=&gt;</span>
+      <span class="n">println</span><span class="o">(</span><span class="n">nameCol</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
 <span class="o">)</span>
 
 <span class="c1">// 直接使用column 提供的遍历接口
@@ -2100,9 +2185,7 @@ Double column: 报酬</div>
 </div>
 </div>
 </div>
-<p>
-除了遍历外，另一种常见应用是将列形变到另外一列：类型不变值变化；类型变化。以工时为例，我们将工时不小于 8 则视为全勤：
-</p>
+<p>除了遍历外，另一种常见应用是将列形变到另外一列：类型不变值变化；类型变化。以工时为例，我们将工时不小于 8 则视为全勤：</p>
 <div class="src src-scala">
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -2141,7 +2224,7 @@ Double column: 报酬</div>
 
 <span class="c1">// 形变 2: mapInto，输入/输出列的数据类型可以不同，但需提前创建大小相同的目标列
 </span><span class="c1"></span><span class="k">val</span> <span class="n">fullTimeCol</span> <span class="k">=</span> <span class="nc">BooleanColumn</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="s">&#34;全勤&#34;</span><span class="o">,</span> 
-                                       <span class="n">workTimeCol</span><span class="o">.</span><span class="n">size</span><span class="o">(</span><span class="o">)</span><span class="o">)</span> <span class="c1">// 创建记录全勤标签的Boolean列
+                                       <span class="n">workTimeCol</span><span class="o">.</span><span class="n">size</span><span class="o">())</span> <span class="c1">// 创建记录全勤标签的Boolean列
 </span><span class="c1"></span><span class="k">val</span> <span class="n">mapFunc</span><span class="k">:</span> <span class="kt">Double2BooleanFunction</span> <span class="o">=</span> 
   <span class="o">(</span><span class="n">workTime</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">workTime</span> <span class="o">&gt;=</span> <span class="mf">8.0</span>                    <span class="c1">// 基于SAM 创建映射函数
 </span><span class="c1"></span><span class="n">workTimeCol</span><span class="o">.</span><span class="n">mapInto</span><span class="o">(</span><span class="n">mapFunc</span><span class="o">,</span> <span class="n">fullTimeCol</span><span class="o">)</span>                  <span class="c1">// 形变
@@ -2149,9 +2232,7 @@ Double column: 报酬</div>
 </div>
 </div>
 </div>
-<p>
-输出结果为：
-</p>
+<p>输出结果为：</p>
 <table>
 <thead>
 <tr>
@@ -2228,17 +2309,17 @@ Double column: 报酬</div>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div id="outline-container-headline-14" class="outline-4">
 <h4 id="headline-14">
 2. 列运算
 </h4>
-<p>
-<code class="verbatim">tablesaw</code> 提供了丰富的针对列的运算函数，而且针对不同数据类型提供了不同特化接口。建议优先查阅 API 文档，最后考虑写代码。这里介绍几个大类：
-</p>
+<div id="outline-text-headline-14" class="outline-text-4">
+<p><code class="verbatim">tablesaw</code> 提供了丰富的针对列的运算函数，而且针对不同数据类型提供了不同特化接口。建议优先查阅 API 文档，最后考虑写代码。这里介绍几个大类：</p>
 <ul>
 <li>
-<p>
-多列交叉运算。比如一列中所有元素和同一数据计算，或者两列元素按序交叉计算。比如每人的时薪：
-</p>
+<p>多列交叉运算。比如一列中所有元素和同一数据计算，或者两列元素按序交叉计算。比如每人的时薪：</p>
 </li>
 </ul>
 <div class="src src-scala">
@@ -2249,15 +2330,13 @@ Double column: 报酬</div>
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-scala" data-lang="scala"><span class="c1">// 第三列报酬除以第二列工时得到时薪
-</span><span class="c1"></span><span class="n">tbl</span><span class="o">.</span><span class="n">doubleColumn</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span><span class="o">.</span><span class="n">divide</span><span class="o">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">doubleColumn</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span><span class="o">)</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="n">tbl</span><span class="o">.</span><span class="n">doubleColumn</span><span class="o">(</span><span class="mi">3</span><span class="o">).</span><span class="n">divide</span><span class="o">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">doubleColumn</span><span class="o">(</span><span class="mi">2</span><span class="o">))</span></code></pre></td></tr></table>
 </div>
 </div>
 </div>
 <ul>
 <li>
-<p>
-单列的统计。均值，标准差，最大 N 个值，最小 N 个值，窗口函数等。
-</p>
+<p>单列的统计。均值，标准差，最大 N 个值，最小 N 个值，窗口函数等。</p>
 </li>
 </ul>
 <div class="src src-scala">
@@ -2268,23 +2347,23 @@ Double column: 报酬</div>
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-scala" data-lang="scala"><span class="c1">// 第三列报酬的标准差
-</span><span class="c1"></span><span class="n">tbl</span><span class="o">.</span><span class="n">doubleColumn</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span><span class="o">.</span><span class="n">workTimeCol</span><span class="o">.</span><span class="n">standardDeviation</span><span class="o">(</span><span class="o">)</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="n">tbl</span><span class="o">.</span><span class="n">doubleColumn</span><span class="o">(</span><span class="mi">3</span><span class="o">).</span><span class="n">workTimeCol</span><span class="o">.</span><span class="n">standardDeviation</span><span class="o">()</span></code></pre></td></tr></table>
 </div>
 </div>
 </div>
 <ul>
 <li>
-<p>
-排序。数值，时间，字符串类型默认支持增序、降序，也支持自定义排序。
-</p>
+<p>排序。数值，时间，字符串类型默认支持增序、降序，也支持自定义排序。</p>
 </li>
 </ul>
+</div>
+</div>
+<div id="outline-container-headline-15" class="outline-4">
 <h4 id="headline-15">
 3. 过滤 
 </h4>
-<p>
-<code class="verbatim">tablesaw</code> 对列的过滤条件定义为 <code class="verbatim">Selection</code> ，不同的条件可以按“与、或、非”组合。每种类型的列均提供 &#34;is&#34; 作为前缀的接口直接生成条件。下面举个例子，找到工作时间在 <code>2019-01-09 - 2019-01-10</code> 之间工时等于 8 且报酬小于 1000 的所有记录：
-</p>
+<div id="outline-text-headline-15" class="outline-text-4">
+<p><code class="verbatim">tablesaw</code> 对列的过滤条件定义为 <code class="verbatim">Selection</code> ，不同的条件可以按“与、或、非”组合。每种类型的列均提供 &#34;is&#34; 作为前缀的接口直接生成条件。下面举个例子，找到工作时间在 <code>2019-01-09 - 2019-01-10</code> 之间工时等于 8 且报酬小于 1000 的所有记录：</p>
 <div class="src src-scala">
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -2304,20 +2383,18 @@ Double column: 报酬</div>
 <pre class="chroma"><code class="language-scala" data-lang="scala"><span class="c1">// 设置时间的过滤条件
 </span><span class="c1"></span><span class="k">val</span> <span class="n">datePattern</span> <span class="k">=</span> <span class="nc">DateTimeFormatter</span><span class="o">.</span><span class="n">ofPattern</span><span class="o">(</span><span class="s">&#34;yyyy-MM-dd&#34;</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">dateSel</span> <span class="k">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">dateColumn</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
-                 <span class="o">.</span><span class="n">isBetweenIncluding</span><span class="o">(</span><span class="nc">LocalDate</span><span class="o">.</span><span class="n">parse</span><span class="o">(</span><span class="s">&#34;2019-01-09&#34;</span><span class="o">,</span> <span class="n">datePattern</span><span class="o">)</span><span class="o">,</span>
-                                     <span class="nc">LocalDate</span><span class="o">.</span><span class="n">parse</span><span class="o">(</span><span class="s">&#34;2019-01-10&#34;</span><span class="o">,</span> <span class="n">datePattern</span><span class="o">)</span><span class="o">)</span>
+                 <span class="o">.</span><span class="n">isBetweenIncluding</span><span class="o">(</span><span class="nc">LocalDate</span><span class="o">.</span><span class="n">parse</span><span class="o">(</span><span class="s">&#34;2019-01-09&#34;</span><span class="o">,</span> <span class="n">datePattern</span><span class="o">),</span>
+                                     <span class="nc">LocalDate</span><span class="o">.</span><span class="n">parse</span><span class="o">(</span><span class="s">&#34;2019-01-10&#34;</span><span class="o">,</span> <span class="n">datePattern</span><span class="o">))</span>
 <span class="c1">// 设置工时过滤条件
-</span><span class="c1"></span><span class="k">val</span> <span class="n">workTimeSel</span> <span class="k">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">doubleColumn</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span><span class="o">.</span><span class="n">isEqualTo</span><span class="o">(</span><span class="mf">8.0</span><span class="o">)</span>
+</span><span class="c1"></span><span class="k">val</span> <span class="n">workTimeSel</span> <span class="k">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">doubleColumn</span><span class="o">(</span><span class="mi">2</span><span class="o">).</span><span class="n">isEqualTo</span><span class="o">(</span><span class="mf">8.0</span><span class="o">)</span>
 <span class="c1">// 设置报酬过滤条件
-</span><span class="c1"></span><span class="k">val</span> <span class="n">salarySel</span> <span class="k">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">doubleColumn</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span><span class="o">.</span><span class="n">isLessThan</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
+</span><span class="c1"></span><span class="k">val</span> <span class="n">salarySel</span> <span class="k">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">doubleColumn</span><span class="o">(</span><span class="mi">3</span><span class="o">).</span><span class="n">isLessThan</span><span class="o">(</span><span class="mi">1000</span><span class="o">)</span>
 <span class="c1">// 综合各条件过滤表格
-</span><span class="c1"></span><span class="n">tbl</span><span class="o">.</span><span class="n">where</span><span class="o">(</span><span class="n">dateSel</span><span class="o">.</span><span class="n">and</span><span class="o">(</span><span class="n">workTimeSel</span><span class="o">)</span><span class="o">.</span><span class="n">and</span><span class="o">(</span><span class="n">salarySel</span><span class="o">)</span><span class="o">)</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="n">tbl</span><span class="o">.</span><span class="n">where</span><span class="o">(</span><span class="n">dateSel</span><span class="o">.</span><span class="n">and</span><span class="o">(</span><span class="n">workTimeSel</span><span class="o">).</span><span class="n">and</span><span class="o">(</span><span class="n">salarySel</span><span class="o">))</span></code></pre></td></tr></table>
 </div>
 </div>
 </div>
-<p>
-输出结果符合预期：
-</p>
+<p>输出结果符合预期：</p>
 <table>
 <thead>
 <tr>
@@ -2345,50 +2422,44 @@ Double column: 报酬</div>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-16" class="outline-2">
 <h2 id="headline-16">
 表格处理
 </h2>
-<p>
-除了基础操作可以参考官网说明外，有三种表格的操作特别值得一提：连接，分组聚合，分表。
-</p>
+<div id="outline-text-headline-16" class="outline-text-2">
+<p>除了基础操作可以参考官网说明外，有三种表格的操作特别值得一提：连接，分组聚合，分表。</p>
+<div id="outline-container-headline-17" class="outline-3">
 <h3 id="headline-17">
 连接
 </h3>
-<p>
-将有公共列名的两个表连接起来，基本方式是以公共列为 key，将各表同行其它列数据拼接起来生成新表。根据方式的不同组合有所差异：
-</p>
+<div id="outline-text-headline-17" class="outline-text-3">
+<p>将有公共列名的两个表连接起来，基本方式是以公共列为 key，将各表同行其它列数据拼接起来生成新表。根据方式的不同组合有所差异：</p>
 <ul>
 <li>
-<p>
-inner. 公共列中的数据取交集，其他过滤。
-</p>
+<p>inner. 公共列中的数据取交集，其他过滤。</p>
 </li>
 <li>
-<p>
-outer. 公共列中的数据取并集，缺失的数据设置默认空值。具体又可以分为三类：
-</p>
+<p>outer. 公共列中的数据取并集，缺失的数据设置默认空值。具体又可以分为三类：</p>
 <ul>
 <li>
-<p>
-leftOuter. 结果表公共列数据与左侧表完全相同，不在其中的过滤，缺失的设置空值。
-</p>
+<p>leftOuter. 结果表公共列数据与左侧表完全相同，不在其中的过滤，缺失的设置空值。</p>
 </li>
 <li>
-<p>
-rightOuter. 结果表公共列数据与右侧表完全相同，不在其中的过滤，缺失的设置空值。
-</p>
+<p>rightOuter. 结果表公共列数据与右侧表完全相同，不在其中的过滤，缺失的设置空值。</p>
 </li>
 <li>
-<p>
-fullOuter. 结果表公共列数据为两个表的并集，缺失的设置空值。
-</p>
+<p>fullOuter. 结果表公共列数据为两个表的并集，缺失的设置空值。</p>
 </li>
 </ul>
 </li>
 </ul>
-<p>
-举个例子，增加一个新表 tbl2 记录每人的工作地点：
-</p>
+<p>举个例子，增加一个新表 tbl2 记录每人的工作地点：</p>
 <table>
 <thead>
 <tr>
@@ -2411,22 +2482,18 @@ fullOuter. 结果表公共列数据为两个表的并集，缺失的设置空值
 </tr>
 </tbody>
 </table>
-<p>
-采用 inner 方式和 demo 表连接：
-</p>
+<p>采用 inner 方式和 demo 表连接：</p>
 <div class="src src-scala">
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">tbl3</span> <span class="k">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">joinOn</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">)</span><span class="o">.</span><span class="n">inner</span><span class="o">(</span><span class="n">tbl2</span><span class="o">)</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">tbl3</span> <span class="k">=</span> <span class="n">tbl</span><span class="o">.</span><span class="n">joinOn</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">).</span><span class="n">inner</span><span class="o">(</span><span class="n">tbl2</span><span class="o">)</span></code></pre></td></tr></table>
 </div>
 </div>
 </div>
-<p>
-tbl3 的内容是：
-</p>
+<p>tbl3 的内容是：</p>
 <table>
 <thead>
 <tr>
@@ -2473,22 +2540,22 @@ tbl3 的内容是：
 </tr>
 </tbody>
 </table>
-<p>
-可以发现，按照 name 的交集连接，tom 和 jerry 都被过滤掉了。
-</p>
+<p>可以发现，按照 name 的交集连接，tom 和 jerry 都被过滤掉了。</p>
+</div>
+</div>
+<div id="outline-container-headline-18" class="outline-3">
 <h3 id="headline-18">
 分组聚合
 </h3>
-<p>
-类似于 SQL 中的 groupby，接口为： <code>tbl.summarize(col1, col2, col3, aggFunc1, aggFunc2 ...).by(groupCol1, groupCol2)</code> 。其中 by 的参数表示分组列名集合。summarize 的 <code>col1, col2, col3</code> 表示分组后需要被聚合处理的列名集合， <code>aggFunc1, aggFunc2</code> 表示聚合函数，会被用于所有的聚合列。举个例子计算每人的总报酬：
-</p>
+<div id="outline-text-headline-18" class="outline-text-3">
+<p>类似于 SQL 中的 groupby，接口为： <code>tbl.summarize(col1, col2, col3, aggFunc1, aggFunc2 ...).by(groupCol1, groupCol2)</code> 。其中 by 的参数表示分组列名集合。summarize 的 <code>col1, col2, col3</code> 表示分组后需要被聚合处理的列名集合， <code>aggFunc1, aggFunc2</code> 表示聚合函数，会被用于所有的聚合列。举个例子计算每人的总报酬：</p>
 <div class="src src-scala">
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">tbl3</span><span class="o">.</span><span class="n">summarize</span><span class="o">(</span><span class="s">&#34;报酬&#34;</span><span class="o">,</span> <span class="n">sum</span><span class="o">)</span><span class="o">.</span><span class="n">by</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">)</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">tbl3</span><span class="o">.</span><span class="n">summarize</span><span class="o">(</span><span class="s">&#34;报酬&#34;</span><span class="o">,</span> <span class="n">sum</span><span class="o">).</span><span class="n">by</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">)</span></code></pre></td></tr></table>
 </div>
 </div>
 </div>
@@ -2522,12 +2589,14 @@ tbl3 的内容是：
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div id="outline-container-headline-19" class="outline-3">
 <h3 id="headline-19">
 分表
 </h3>
-<p>
-和分组聚合不同，按列分组后，可能并不需要将同组数据聚合为一个值，而是要保存下来做更加复杂的操作，这时就需要分表。接口很简单： <code>tbl.splitOn(col ...)</code> 设定分表的列名集合。比如：
-</p>
+<div id="outline-text-headline-19" class="outline-text-3">
+<p>和分组聚合不同，按列分组后，可能并不需要将同组数据聚合为一个值，而是要保存下来做更加复杂的操作，这时就需要分表。接口很简单： <code>tbl.splitOn(col ...)</code> 设定分表的列名集合。比如：</p>
 <div class="src src-scala">
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -2536,16 +2605,20 @@ tbl3 的内容是：
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-scala" data-lang="scala"><span class="c1">// 按照名称和地点分表，并将生成的各个子表保存到 List 中
-</span><span class="c1"></span><span class="n">tbl</span><span class="o">.</span><span class="n">splitOn</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">,</span> <span class="s">&#34;地点&#34;</span><span class="o">)</span><span class="o">.</span><span class="n">asTableList</span><span class="o">(</span><span class="o">)</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="n">tbl</span><span class="o">.</span><span class="n">splitOn</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">,</span> <span class="s">&#34;地点&#34;</span><span class="o">).</span><span class="n">asTableList</span><span class="o">()</span></code></pre></td></tr></table>
 </div>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-20" class="outline-2">
 <h2 id="headline-20">
 可视化
 </h2>
-<p>
-<code class="verbatim">tablesaw</code> 可以将表格导出为交互式 html，也支持调试时直接调研调用浏览器打开，并针对不同类型图表做了个性化封装。举个简单例子，查看每人报酬的时间变化曲线：
-</p>
+<div id="outline-text-headline-20" class="outline-text-2">
+<p><code class="verbatim">tablesaw</code> 可以将表格导出为交互式 html，也支持调试时直接调研调用浏览器打开，并针对不同类型图表做了个性化封装。举个简单例子，查看每人报酬的时间变化曲线：</p>
 <div class="src src-scala">
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -2556,50 +2629,49 @@ tbl3 的内容是：
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-scala" data-lang="scala"><span class="c1">//含义是：将tbl 按照 name 列分组，以 date 列为时间轴，显示 报酬 的变化曲线
-</span><span class="c1"></span><span class="c1">//并将图表的名称设置为：薪酬变化曲线
+</span><span class="c1">//并将图表的名称设置为：薪酬变化曲线
 </span><span class="c1"></span><span class="k">val</span> <span class="n">fig</span> <span class="k">=</span> <span class="nc">TimeSeriesPlot</span><span class="o">.</span><span class="n">create</span><span class="o">(</span><span class="s">&#34;薪酬变化曲线&#34;</span><span class="o">,</span> <span class="n">tbl</span><span class="o">,</span> <span class="s">&#34;date&#34;</span><span class="o">,</span> <span class="s">&#34;报酬&#34;</span><span class="o">,</span> <span class="s">&#34;name&#34;</span><span class="o">)</span>
 <span class="nc">Plot</span><span class="o">.</span><span class="n">show</span><span class="o">(</span><span class="n">fig</span><span class="o">)</span></code></pre></td></tr></table>
 </div>
 </div>
 </div>
 <p>
+
 <figure >
   
-    
-    <img data-src="/images/tablesaw/%e5%8f%af%e8%a7%86%e5%8c%96_%e5%9f%ba%e7%a1%80.png" alt="薪酬变化曲线" data-caption="" src="data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='none' d='M0 0h24v24H0V0z'/%3E%3Cpath fill='%23aaa' d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 16H6c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h12c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1zm-4.44-6.19l-2.35 3.02-1.56-1.88c-.2-.25-.58-.24-.78.01l-1.74 2.23c-.26.33-.02.81.39.81h8.98c.41 0 .65-.47.4-.8l-2.55-3.39c-.19-.26-.59-.26-.79 0z'/%3E%3C/svg%3E" class="lazyload" width="600px" height=""/>
+    <img data-src="/images/tablesaw/%e5%8f%af%e8%a7%86%e5%8c%96_%e5%9f%ba%e7%a1%80.png" alt="薪酬变化曲线" data-caption="" src="data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='600px' height='' viewBox='0 0 24 24'%3E%3Cpath fill='none' d='M0 0h24v24H0V0z'/%3E%3Cpath fill='%23aaa' d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 16H6c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h12c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1zm-4.44-6.19l-2.35 3.02-1.56-1.88c-.2-.25-.58-.24-.78.01l-1.74 2.23c-.26.33-.02.81.39.81h8.98c.41 0 .65-.47.4-.8l-2.55-3.39c-.19-.26-.59-.26-.79 0z'/%3E%3C/svg%3E" class="lazyload" style="width:600px;height:;"/>
     
   
-  <figcaption style="text-align: ">
+    <figcaption style="text-align: ">
     <strong>薪酬变化曲线</strong>:
     
   </figcaption>
   
 </figure>
-  其它类型的图表还有很多，使用方法大同小异，只需根据官方文档传入正确参数即可。
-</p>
+
+  其它类型的图表还有很多，使用方法大同小异，只需根据官方文档传入正确参数即可。</p>
+</div>
+</div>
+<div id="outline-container-headline-21" class="outline-2">
 <h2 id="headline-21">
 小结
 </h2>
-<p>
-小虫向大家简单介绍了 <code class="verbatim">tablesaw</code> 的功能和使用方法，从我自己的使用经验而言，我最喜欢它的的地方在于：
-</p>
+<div id="outline-text-headline-21" class="outline-text-2">
+<p>小虫向大家简单介绍了 <code class="verbatim">tablesaw</code> 的功能和使用方法，从我自己的使用经验而言，我最喜欢它的的地方在于：</p>
 <ul>
 <li>
-<p>
-api 接口的统一，清晰
-</p>
+<p>api 接口的统一，清晰</p>
 </li>
 <li>
-<p>
-交互式图表生成简单，能够和 web 对接
-</p>
+<p>交互式图表生成简单，能够和 web 对接</p>
 </li>
 </ul>
-<p>
-此外， <code class="verbatim">tablesaw</code> 的开发和维护也如火如荼，期待后续有更多的有趣的功能添加进来。
-</p>
+<p>此外， <code class="verbatim">tablesaw</code> 的开发和维护也如火如荼，期待后续有更多的有趣的功能添加进来。</p>
+</div>
+</div>
 
     </article>
+    
     <script>
   'use strict';
   
@@ -3238,7 +3310,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }
 
-      document.getElementsByClassName('navbar__burger')[0].classList.remove('is-active');
+      var navCollapseBtn = document.querySelector('.navbar__burger');
+      var navCollapse = document.getElementsByClassName('navbarm__collapse')[0];
+      if (navCollapse) {
+        navCollapse.setAttribute('data-open', false);
+        navCollapse.style.maxHeight = 0;
+        navCollapseBtn.classList.remove('is-active');
+      }
       document.getElementsByClassName('navbar__menu')[0].classList.remove('is-active');
       document.getElementsByClassName('mobile-search')[0].classList.add('hide');
     },
@@ -3506,7 +3584,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var clipInit = false;
     var preChromaElem = document.querySelectorAll('pre.chroma');
     var langCodeElem = document.querySelectorAll('.language-code');
-    var dolorCodeElem = document.querySelectorAll('div.language-\\$');
+    var dollarCodeElem = document.querySelectorAll('div.language-\\$');
     var gtCodeElem = document.querySelectorAll('div.language-\\>');
 
     var makeClipboard = function(elem) {
@@ -3563,7 +3641,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var newClipboardElem = document.createElement('span');
             newClipboardElem.setAttribute('class', 'copy-to-clipboard');
             newClipboardElem.setAttribute('title', 'Copy to clipboard');
-            closest(code, 'div.chroma').append(newClipboardElem);
+            elem.parentNode.parentNode.insertBefore(newClipboardElem, elem.parentNode.nextElementSibling);
           }
         }
       }
@@ -3590,8 +3668,8 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }) : null;
 
-    dolorCodeElem ? 
-    dolorCodeElem.forEach(function(elem) {
+    dollarCodeElem ? 
+    dollarCodeElem.forEach(function(elem) {
       elem.querySelectorAll('code').forEach(function (codeElem) {
         makeSymbolClipboard(codeElem);
       });
@@ -3607,8 +3685,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     
-    dolorCodeElem ?
-    dolorCodeElem.forEach(function(elem) {
+    dollarCodeElem ?
+    dollarCodeElem.forEach(function(elem) {
       var lnts = elem.parentNode.parentNode ? elem.parentNode.parentNode.querySelectorAll('.lnt') : null;
       lnts ? 
       lnts.forEach(function(lnt) {
@@ -3705,6 +3783,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     
+    document.querySelectorAll("mjx-container").forEach(function (x) {
+      x.parentElement.classList += 'has-jax'
+    });
     
 
 
@@ -3914,11 +3995,12 @@ document.addEventListener('DOMContentLoaded', function () {
   
   
     
-      <a href="https://carbonshow.github.io/zh/posts//index.xml" type="application/rss+xml" title="RSS" aria-label="RSS Feed Link">
+      <a href="https://carbonshow.github.io/zh/posts/index.xml" type="application/rss+xml" title="RSS" aria-label="RSS Feed Link">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><circle fill="currentColor" cx="6.18" cy="17.82" r="2.18"/><path fill="currentColor" d="M5.59 10.23c-.84-.14-1.59.55-1.59 1.4 0 .71.53 1.28 1.23 1.4 2.92.51 5.22 2.82 5.74 5.74.12.7.69 1.23 1.4 1.23.85 0 1.54-.75 1.41-1.59-.68-4.2-3.99-7.51-8.19-8.18zm-.03-5.71C4.73 4.43 4 5.1 4 5.93c0 .73.55 1.33 1.27 1.4 6.01.6 10.79 5.38 11.39 11.39.07.73.67 1.28 1.4 1.28.84 0 1.5-.73 1.42-1.56-.73-7.34-6.57-13.19-13.92-13.92z"/></svg>
       </a>
     
   
+
 
   </div>
 </div>
@@ -3951,14 +4033,19 @@ document.addEventListener('DOMContentLoaded', function () {
         
 
         
-            <p class="caption">Powered by <a href="https://gohugo.io/" rel="noreferrer">Hugo</a> and the <a href="https://github.com/zzossig/hugo-theme-zzo" rel="noreferrer">Zzo theme</a></p>
+            <p class="caption">Powered by <a href="https://gohugo.io/" target="_blank" rel="noreferrer">Hugo</a> and the <a href="https://github.com/zzossig/hugo-theme-zzo" target="_blank" rel="noreferrer">Zzo theme</a></p>
         
         
     </div> 
 </footer>
         </div>
         
-<div class="wrapper__right hide" dir="ltr">
+
+
+
+
+
+<div class="wrapper__right hide" data-pad="true" dir="ltr">
   <script>document.querySelector('.wrapper__right').classList.remove('hide')</script>
   
 </div>

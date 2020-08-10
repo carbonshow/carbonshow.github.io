@@ -14,7 +14,7 @@
     <managingEditor>simon.tao.86@gmail.com (小虫飞飞)</managingEditor>
     <webMaster>simon.tao.86@gmail.com (小虫飞飞)</webMaster>
     <copyright>©{year}, All Rights Reserved</copyright>
-    <lastBuildDate>Tue, 18 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Aug 2020 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="https://carbonshow.github.io/zh/index.xml" rel="self" type="application/rss+xml" />
     
@@ -24,6 +24,54 @@
       
       
 
+      
+      <item>
+        <title>Cluster Sharding及kafka应用</title>
+        <link>https://carbonshow.github.io/zh/posts/cluster-sharding-kafka/</link>
+        <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
+        <author>simon.tao.86@gmail.com (小虫飞飞)</author>
+        <atom:modified>Mon, 10 Aug 2020 00:00:00 +0000</atom:modified>
+        <guid>https://carbonshow.github.io/zh/posts/cluster-sharding-kafka/</guid>
+        <description>数据处理在 Session-Based 场景中的一大特点是：同一会话产生的数据应投递到同一处理单元中。 不同于无状态服务，其难点在于：当集群发生扩缩容时，除了要保证负载均</description>
+        
+        <dc:creator>小虫飞飞</dc:creator>
+        <media:content url="https://carbonshow.github.ioimages/cluster-sharding/sharding_outline.png" medium="image"><media:title type="html">featured image</media:title></media:content>
+        
+        
+        
+          
+            
+              <category>sharding</category>
+            
+          
+            
+              <category>kafka</category>
+            
+          
+            
+              <category>cluster</category>
+            
+          
+        
+        
+          
+            
+              <category>architecture</category>
+            
+          
+        
+        
+          
+            
+              <category>&#34;big</category>
+            
+          
+            
+              <category>data&#34;</category>
+            
+          
+        
+      </item>
       
       <item>
         <title>基于hugo 在github 上搭建个人博客</title>
@@ -142,9 +190,9 @@
       <item>
         <title>关于</title>
         <link>https://carbonshow.github.io/zh/about/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
         <author>simon.tao.86@gmail.com (小虫飞飞)</author>
-        
+        <atom:modified>Sun, 09 Feb 2020 00:00:00 +0000</atom:modified>
         <guid>https://carbonshow.github.io/zh/about/</guid>
         <description>主要内容 小虫飞飞大本营 以 技术 为主要话题，将笔者在日常工作、无聊闲逛中遇到的有趣内容整理出来。一方面帮助自己归纳总结，一方面期待给更多朋友带来</description>
         
